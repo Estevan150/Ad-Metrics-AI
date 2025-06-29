@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { BarChart, Activity, LayoutDashboard, Settings } from "lucide-react";
+import { BarChart, Activity, LayoutDashboard, Settings, Link } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,8 +16,7 @@ import {
 
 const navigationItems = [
   { title: "Dashboard", id: "dashboard", icon: LayoutDashboard },
-  { title: "Meta Ads", id: "meta-ads", icon: Activity },
-  { title: "Google Ads", id: "google-ads", icon: BarChart },
+  { title: "Contas Publicitárias", id: "meta-ads", icon: Link },
   { title: "Campanhas", id: "campaigns", icon: Activity },
   { title: "Configurações", id: "settings", icon: Settings },
 ];

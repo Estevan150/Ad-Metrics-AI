@@ -9,7 +9,146 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      ad_accounts: {
+        Row: {
+          access_token_encrypted: string | null
+          account_id: string
+          account_name: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          platform: string
+          refresh_token_encrypted: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token_encrypted?: string | null
+          account_id: string
+          account_name: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          platform: string
+          refresh_token_encrypted?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token_encrypted?: string | null
+          account_id?: string
+          account_name?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          refresh_token_encrypted?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          ad_account_id: string
+          budget_amount: number | null
+          campaign_id: string
+          campaign_name: string
+          clicks: number | null
+          conversions: number | null
+          cost: number | null
+          cpc: number | null
+          created_at: string
+          ctr: number | null
+          currency: string | null
+          id: string
+          impressions: number | null
+          last_synced_at: string | null
+          platform: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ad_account_id: string
+          budget_amount?: number | null
+          campaign_id: string
+          campaign_name: string
+          clicks?: number | null
+          conversions?: number | null
+          cost?: number | null
+          cpc?: number | null
+          created_at?: string
+          ctr?: number | null
+          currency?: string | null
+          id?: string
+          impressions?: number | null
+          last_synced_at?: string | null
+          platform: string
+          status: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ad_account_id?: string
+          budget_amount?: number | null
+          campaign_id?: string
+          campaign_name?: string
+          clicks?: number | null
+          conversions?: number | null
+          cost?: number | null
+          cpc?: number | null
+          created_at?: string
+          ctr?: number | null
+          currency?: string | null
+          id?: string
+          impressions?: number | null
+          last_synced_at?: string | null
+          platform?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_ad_account_id_fkey"
+            columns: ["ad_account_id"]
+            isOneToOne: false
+            referencedRelation: "ad_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
