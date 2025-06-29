@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { RefreshCw, TrendingUp, TrendingDown, Google, Facebook } from 'lucide-react';
+import { RefreshCw, TrendingUp, Search, Facebook } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Campaign {
@@ -48,7 +48,13 @@ export function CampaignsPage() {
         .order('last_synced_at', { ascending: false });
 
       if (error) throw error;
-      setCampaigns(data || []);
+      
+      // Filtrar apenas plataformas válidas e fazer type assertion segura
+      const validCampaigns = (data || []).filter(campaign => 
+        campaign.platform === 'google_ads' || campaign.platform === 'meta_ads'
+      ) as Campaign[];
+      
+      setCampaigns(validCampaigns);
     } catch (error) {
       console.error('Erro ao buscar campanhas:', error);
       toast({
@@ -96,7 +102,7 @@ export function CampaignsPage() {
   };
 
   const getPlatformIcon = (platform: string) => {
-    return platform === 'google_ads' ? Google : Facebook;
+    return platform === 'google_ads' ? Search : Facebook;
   };
 
   const formatCurrency = (amount: number, currency: string = 'BRL') => {

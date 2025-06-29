@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
-import { Plus, Google, Facebook, Settings, Trash2 } from 'lucide-react';
+import { Plus, Search, Facebook, Settings, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface AdAccount {
@@ -38,7 +38,13 @@ export function AdAccountsPage() {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setAdAccounts(data || []);
+      
+      // Filtrar apenas plataformas válidas e fazer type assertion segura
+      const validAccounts = (data || []).filter(account => 
+        account.platform === 'google_ads' || account.platform === 'meta_ads'
+      ) as AdAccount[];
+      
+      setAdAccounts(validAccounts);
     } catch (error) {
       console.error('Erro ao buscar contas:', error);
       toast({
@@ -60,7 +66,7 @@ export function AdAccountsPage() {
   };
 
   const getPlatformIcon = (platform: string) => {
-    return platform === 'google_ads' ? Google : Facebook;
+    return platform === 'google_ads' ? Search : Facebook;
   };
 
   const getPlatformName = (platform: string) => {
@@ -97,7 +103,7 @@ export function AdAccountsPage() {
               onClick={() => handleConnectAccount('google_ads')}
               className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
             >
-              <Google className="w-5 h-5 mr-2" />
+              <Search className="w-5 h-5 mr-2" />
               Conectar Google Ads
             </Button>
             <p className="text-sm text-gray-500 mt-2">
