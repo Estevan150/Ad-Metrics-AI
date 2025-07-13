@@ -29,7 +29,7 @@ export function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -91,14 +91,33 @@ export function CampaignsPage() {
 
   const handleSyncCampaigns = async () => {
     setSyncing(true);
-    // Simular sincronização (implementar integração real posteriormente)
-    setTimeout(() => {
-      setSyncing(false);
+    try {
+      const { data, error } = await supabase.functions.invoke('sync-campaigns', {
+        body: {},
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Sincronização concluída",
-        description: "Suas campanhas foram atualizadas com sucesso"
+        description: `${data?.campaignsSynced || 0} campanhas foram sincronizadas com sucesso.`,
       });
-    }, 2000);
+      
+      // Recarregar campanhas
+      fetchCampaigns();
+    } catch (error) {
+      console.error('Erro ao sincronizar campanhas:', error);
+      toast({
+        title: "Erro na sincronização",
+        description: "Não foi possível sincronizar as campanhas. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setSyncing(false);
+    }
   };
 
   const getPlatformIcon = (platform: string) => {

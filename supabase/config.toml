@@ -1,1 +1,10 @@
 project_id = "mngqhqwvpfmcxwfkqczx"
+
+[functions.google-ads-oauth]
+verify_jwt = false
+
+[functions.meta-ads-oauth]
+verify_jwt = false
+
+[functions.sync-campaigns]
+verify_jwt = true

@@ -20,7 +20,7 @@ interface AdAccount {
 export function AdAccountsPage() {
   const [adAccounts, setAdAccounts] = useState<AdAccount[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -57,12 +57,41 @@ export function AdAccountsPage() {
     }
   };
 
-  const handleConnectAccount = (platform: 'google_ads' | 'meta_ads') => {
-    // Por enquanto, apenas mostra um aviso de que a funcionalidade será implementada
-    toast({
-      title: "Funcionalidade em desenvolvimento",
-      description: `A integração com ${platform === 'google_ads' ? 'Google Ads' : 'Meta Ads'} será implementada em breve`,
-    });
+  const handleConnectAccount = async (platform: 'google_ads' | 'meta_ads') => {
+    try {
+      const functionName = platform === 'google_ads' ? 'google-ads-oauth' : 'meta-ads-oauth';
+      
+      const { data, error } = await supabase.functions.invoke(functionName, {
+        body: {},
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.authUrl) {
+        // Abrir janela de OAuth
+        window.open(data.authUrl, '_blank', 'width=600,height=600');
+        
+        toast({
+          title: 'Autenticação iniciada',
+          description: `Complete a autenticação na janela que se abriu para conectar sua conta ${getPlatformName(platform)}.`,
+        });
+        
+        // Recarregar contas após alguns segundos para capturar novas conexões
+        setTimeout(() => {
+          fetchAdAccounts();
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Erro ao conectar conta:', error);
+      toast({
+        title: 'Erro na conexão',
+        description: 'Não foi possível iniciar a conexão. Tente novamente.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const getPlatformIcon = (platform: string) => {
