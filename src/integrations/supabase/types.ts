@@ -56,6 +56,214 @@ export type Database = {
         }
         Relationships: []
       }
+      alert_settings: {
+        Row: {
+          created_at: string
+          email_enabled: boolean
+          id: string
+          is_enabled: boolean
+          push_enabled: boolean
+          threshold_value: number | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_enabled?: boolean
+          id?: string
+          is_enabled?: boolean
+          push_enabled?: boolean
+          threshold_value?: number | null
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_enabled?: boolean
+          id?: string
+          is_enabled?: boolean
+          push_enabled?: boolean
+          threshold_value?: number | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      automated_reports: {
+        Row: {
+          created_at: string
+          email_recipients: string[] | null
+          id: string
+          is_active: boolean
+          last_sent_at: string | null
+          name: string
+          schedule_day: number | null
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_recipients?: string[] | null
+          id?: string
+          is_active?: boolean
+          last_sent_at?: string | null
+          name: string
+          schedule_day?: number | null
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_recipients?: string[] | null
+          id?: string
+          is_active?: boolean
+          last_sent_at?: string | null
+          name?: string
+          schedule_day?: number | null
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      automation_rules: {
+        Row: {
+          action_type: string
+          action_value: number | null
+          campaigns: string[] | null
+          condition_type: string
+          condition_value: number
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          action_value?: number | null
+          campaigns?: string[] | null
+          condition_type: string
+          condition_value: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          action_value?: number | null
+          campaigns?: string[] | null
+          condition_type?: string
+          condition_value?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      budget_goals: {
+        Row: {
+          campaign_id: string | null
+          created_at: string
+          id: string
+          month_year: string
+          monthly_budget: number
+          target_conversions: number | null
+          target_cpc: number | null
+          target_ctr: number | null
+          target_roas: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          month_year: string
+          monthly_budget: number
+          target_conversions?: number | null
+          target_cpc?: number | null
+          target_ctr?: number | null
+          target_roas?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          month_year?: string
+          monthly_budget?: number
+          target_conversions?: number | null
+          target_cpc?: number | null
+          target_ctr?: number | null
+          target_roas?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "budget_goals_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_comments: {
+        Row: {
+          campaign_id: string | null
+          comment: string
+          created_at: string
+          id: string
+          is_internal: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          comment: string
+          created_at?: string
+          id?: string
+          is_internal?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string | null
+          comment?: string
+          created_at?: string
+          id?: string
+          is_internal?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_comments_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           ad_account_id: string
@@ -127,6 +335,97 @@ export type Database = {
           },
         ]
       }
+      change_history: {
+        Row: {
+          action: string
+          campaign_id: string | null
+          created_at: string
+          field_changed: string | null
+          id: string
+          new_value: string | null
+          old_value: string | null
+          reason: string | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          campaign_id?: string | null
+          created_at?: string
+          field_changed?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          campaign_id?: string | null
+          created_at?: string
+          field_changed?: string | null
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "change_history_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          campaign_id: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          priority: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          priority?: string
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          priority?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -150,6 +449,45 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          id: string
+          invited_at: string
+          is_active: boolean
+          member_id: string
+          owner_id: string
+          permissions: string[] | null
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          id?: string
+          invited_at?: string
+          is_active?: boolean
+          member_id: string
+          owner_id: string
+          permissions?: string[] | null
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          id?: string
+          invited_at?: string
+          is_active?: boolean
+          member_id?: string
+          owner_id?: string
+          permissions?: string[] | null
+          role?: string
           updated_at?: string
         }
         Relationships: []
