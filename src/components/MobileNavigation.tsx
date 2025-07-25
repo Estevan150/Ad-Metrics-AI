@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Home, BarChart3, Settings, Bell, User } from 'lucide-react';
+import { Home, BarChart3, Settings, Bell, User, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,6 +13,7 @@ interface MobileNavigationProps {
 const navigationItems = [
   { id: 'dashboard', title: 'Dashboard', icon: Home },
   { id: 'campaigns', title: 'Campanhas', icon: BarChart3 },
+  { id: 'reports', title: 'Relatórios', icon: FileText },
   { id: 'settings', title: 'Configurações', icon: Settings },
 ];
 

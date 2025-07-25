@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { BarChart, Activity, LayoutDashboard, Settings, Link } from "lucide-react";
+import { BarChart, Activity, LayoutDashboard, Settings, Link, FileText } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ const navigationItems = [
   { title: "Dashboard", id: "dashboard", icon: LayoutDashboard },
   { title: "Contas Publicitárias", id: "meta-ads", icon: Link },
   { title: "Campanhas", id: "campaigns", icon: Activity },
+  { title: "Relatórios", id: "reports", icon: FileText },
   { title: "Configurações", id: "settings", icon: Settings },
 ];
 
@@ -31,15 +32,15 @@ export function AppSidebar({ activePage, setActivePage }: AppSidebarProps) {
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className={`${isCollapsed ? "w-16" : "w-64"} border-r bg-white/80 backdrop-blur-sm`}>
+    <Sidebar className={`${isCollapsed ? "w-16" : "w-64"} border-r bg-card/80 backdrop-blur-sm shadow-card`}>
       <SidebarContent>
         <div className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <BarChart className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shadow-primary">
+              <BarChart className="w-5 h-5 text-primary-foreground" />
             </div>
             {!isCollapsed && (
-              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 AdMetrics AI
               </h1>
             )}
@@ -47,7 +48,7 @@ export function AppSidebar({ activePage, setActivePage }: AppSidebarProps) {
         </div>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs uppercase tracking-wider text-gray-500 px-4">
+          <SidebarGroupLabel className="text-xs uppercase tracking-wider text-muted-foreground px-4">
             Navegação
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -56,13 +57,15 @@ export function AppSidebar({ activePage, setActivePage }: AppSidebarProps) {
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
                     onClick={() => setActivePage(item.id)}
-                    className={`w-full justify-start ${
+                    className={`w-full justify-start transition-all duration-200 ${
                       activePage === item.id
-                        ? "bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 border-r-2 border-blue-600"
-                        : "hover:bg-gray-50"
-                    } transition-all duration-200`}
+                        ? "bg-gradient-primary text-primary-foreground shadow-primary border-r-2 border-primary"
+                        : "hover:bg-accent hover:text-accent-foreground"
+                    }`}
                   >
-                    <item.icon className={`h-5 w-5 ${activePage === item.id ? "text-blue-600" : "text-gray-500"}`} />
+                    <item.icon className={`h-5 w-5 ${
+                      activePage === item.id ? "text-primary-foreground" : "text-muted-foreground"
+                    }`} />
                     {!isCollapsed && <span className="ml-3">{item.title}</span>}
                   </SidebarMenuButton>
                 </SidebarMenuItem>

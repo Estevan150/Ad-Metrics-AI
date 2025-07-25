@@ -7,6 +7,7 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { ResponsiveDashboard } from "@/components/ResponsiveDashboard";
 import { AdAccountsPage } from "@/components/AdAccountsPage";
 import { CampaignsPage } from "@/components/CampaignsPage";
+import { ReportsPage } from "@/components/ReportsPage";
 import { AIAssistant } from "@/components/AIAssistant";
 import { MobileNavigation } from "@/components/MobileNavigation";
 import { OnboardingTour } from "@/components/OnboardingTour";
@@ -40,6 +41,8 @@ const Index = () => {
         return <AdAccountsPage />;
       case "campaigns":
         return <CampaignsPage />;
+      case "reports":
+        return <ReportsPage />;
       case "settings":
         return <div className="p-6"><h2 className="text-2xl font-bold">Configurações</h2></div>;
       default:
@@ -49,8 +52,8 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -60,7 +63,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-background">
       <OnboardingTour />
       <SidebarProvider>
         <div className="flex min-h-screen w-full">
