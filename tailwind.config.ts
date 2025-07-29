@@ -83,12 +83,14 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-success': 'var(--gradient-success)',
-				'gradient-chart': 'var(--gradient-chart)'
+				'gradient-chart': 'var(--gradient-chart)',
+				'gradient-glass': 'var(--gradient-glass)'
 			},
 			boxShadow: {
 				'primary': 'var(--shadow-primary)',
 				'success': 'var(--shadow-success)',
-				'card': 'var(--shadow-card)'
+				'card': 'var(--shadow-card)',
+				'glass': 'var(--shadow-glass)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
