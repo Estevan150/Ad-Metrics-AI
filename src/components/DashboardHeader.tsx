@@ -12,9 +12,10 @@ import {
 
 interface DashboardHeaderProps {
   onToggleAI: () => void;
+  onToggleAdvancedAI?: () => void;
 }
 
-export function DashboardHeader({ onToggleAI }: DashboardHeaderProps) {
+export function DashboardHeader({ onToggleAI, onToggleAdvancedAI }: DashboardHeaderProps) {
   const { user, signOut } = useAuth();
 
   const handleSignOut = async () => {

@@ -8,6 +8,8 @@ import { ResponsiveDashboard } from "@/components/ResponsiveDashboard";
 import { AdAccountsPage } from "@/components/AdAccountsPage";
 import { CampaignsPage } from "@/components/CampaignsPage";
 import { ReportsPage } from "@/components/ReportsPage";
+import { FuturisticAnalytics } from "@/components/FuturisticAnalytics";
+import { AIMarketingAssistant } from "@/components/AIMarketingAssistant";
 import { AIAssistant } from "@/components/AIAssistant";
 import { MobileNavigation } from "@/components/MobileNavigation";
 import { OnboardingTour } from "@/components/OnboardingTour";
@@ -20,6 +22,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Index = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [showAIChat, setShowAIChat] = useState(false);
+  const [showAdvancedAI, setShowAdvancedAI] = useState(false);
   const { user, loading } = useAuth();
   const { isConnected } = useRealtimeSync();
   const isMobile = useIsMobile();
@@ -34,7 +37,7 @@ const Index = () => {
   const renderContent = () => {
     switch (activePage) {
       case "dashboard":
-        return <ResponsiveDashboard />;
+        return <FuturisticAnalytics />;
       case "meta-ads":
         return <AdAccountsPage />;
       case "google-ads":
@@ -46,7 +49,7 @@ const Index = () => {
       case "settings":
         return <div className="p-6"><h2 className="text-2xl font-bold">Configurações</h2></div>;
       default:
-        return <ResponsiveDashboard />;
+        return <FuturisticAnalytics />;
     }
   };
 
@@ -73,7 +76,10 @@ const Index = () => {
           
           <main className="flex-1 flex flex-col">
             {!isMobile && (
-              <DashboardHeader onToggleAI={() => setShowAIChat(!showAIChat)} />
+              <DashboardHeader 
+                onToggleAI={() => setShowAIChat(!showAIChat)}
+                onToggleAdvancedAI={() => setShowAdvancedAI(!showAdvancedAI)}
+              />
             )}
             
             <div className="flex-1 relative">
@@ -92,6 +98,13 @@ const Index = () => {
               
               {showAIChat && (
                 <AIAssistant onClose={() => setShowAIChat(false)} />
+              )}
+              
+              {showAdvancedAI && (
+                <AIMarketingAssistant 
+                  onClose={() => setShowAdvancedAI(false)}
+                  campaignData={[]}
+                />
               )}
             </div>
           </main>
