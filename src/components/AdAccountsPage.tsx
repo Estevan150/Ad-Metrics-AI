@@ -125,34 +125,43 @@ export function AdAccountsPage() {
       </div>
 
       {/* Conectar novas contas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors cursor-pointer">
-          <CardContent className="p-6 text-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="border-2 border-dashed border-muted hover:border-primary/50 transition-all duration-300 hover:shadow-primary group">
+          <CardContent className="p-8 text-center">
+            <div className="mb-4 p-4 bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto group-hover:bg-primary/20 transition-colors">
+              <Search className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2 text-card-foreground">Google Ads</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Conecte sua conta do Google Ads para importar e monitorar suas campanhas de pesquisa
+            </p>
             <Button
               onClick={() => handleConnectAccount('google_ads')}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+              className="w-full bg-gradient-primary text-primary-foreground hover:shadow-primary transition-all"
             >
-              <Search className="w-5 h-5 mr-2" />
+              <Search className="w-4 h-4 mr-2" />
               Conectar Google Ads
             </Button>
-            <p className="text-sm text-gray-500 mt-2">
-              Conecte sua conta do Google Ads para importar campanhas
-            </p>
           </CardContent>
         </Card>
 
-        <Card className="border-2 border-dashed border-gray-300 hover:border-purple-400 transition-colors cursor-pointer">
-          <CardContent className="p-6 text-center">
+        <Card className="border-2 border-dashed border-muted hover:border-secondary/50 transition-all duration-300 hover:shadow-card group">
+          <CardContent className="p-8 text-center">
+            <div className="mb-4 p-4 bg-secondary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto group-hover:bg-secondary/20 transition-colors">
+              <Facebook className="w-8 h-8 text-secondary" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2 text-card-foreground">Meta Ads</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Conecte sua conta do Meta Ads para gerenciar campanhas do Facebook e Instagram
+            </p>
             <Button
               onClick={() => handleConnectAccount('meta_ads')}
-              className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800"
+              variant="secondary"
+              className="w-full hover:shadow-card transition-all"
             >
-              <Facebook className="w-5 h-5 mr-2" />
+              <Facebook className="w-4 h-4 mr-2" />
               Conectar Meta Ads
             </Button>
-            <p className="text-sm text-gray-500 mt-2">
-              Conecte sua conta do Meta Ads (Facebook/Instagram)
-            </p>
           </CardContent>
         </Card>
       </div>

@@ -42,40 +42,50 @@ export function PWAInstallPrompt() {
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    // Don't show again for this session
-    sessionStorage.setItem('pwa-install-dismissed', 'true');
+    // Don't show again permanently
+    localStorage.setItem('pwa-install-dismissed', 'true');
   };
 
-  if (!showPrompt || sessionStorage.getItem('pwa-install-dismissed')) {
+  if (!showPrompt || localStorage.getItem('pwa-install-dismissed')) {
     return null;
   }
 
   return (
-    <Card className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm border-2 border-primary/20 shadow-lg bg-background/95 backdrop-blur md:left-auto md:right-4 md:max-w-md">
+    <Card className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm border-2 border-primary/20 shadow-primary bg-card backdrop-blur-sm md:left-auto md:right-4 md:max-w-md">
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
+            <div className="p-2 bg-primary/20 rounded-lg border border-primary/30">
               <Download className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-sm mb-1">
+              <h3 className="font-semibold text-sm mb-1 text-card-foreground">
                 Instalar Aplicativo
               </h3>
               <p className="text-xs text-muted-foreground mb-3">
                 Instale nosso app para acesso rápido e notificações.
               </p>
               <div className="flex gap-2">
-                <Button size="sm" onClick={handleInstall} className="text-xs px-3 py-1">
+                <Button size="sm" onClick={handleInstall} className="text-xs px-3 py-1 bg-primary text-primary-foreground hover:bg-primary/90">
                   Instalar
                 </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleDismiss}
+                  className="text-xs px-3 py-1 border-border bg-muted/50 hover:bg-muted"
+                >
+                  Agora não
+                </Button>
+              </div>
+              <div className="mt-2">
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={handleDismiss}
-                  className="text-xs px-3 py-1"
+                  className="text-xs px-2 py-1 text-muted-foreground hover:text-foreground"
                 >
-                  Agora não
+                  Não mostrar novamente
                 </Button>
               </div>
             </div>
@@ -84,7 +94,7 @@ export function PWAInstallPrompt() {
             variant="ghost"
             size="sm"
             onClick={handleDismiss}
-            className="h-6 w-6 p-0 shrink-0"
+            className="h-6 w-6 p-0 shrink-0 text-muted-foreground hover:text-foreground"
           >
             <X className="h-4 w-4" />
           </Button>

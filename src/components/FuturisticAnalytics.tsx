@@ -232,61 +232,151 @@ export function FuturisticAnalytics() {
       const pdf = new jsPDF();
       const pageWidth = pdf.internal.pageSize.getWidth();
       
-      // Header
+      // Modern Header with gradient effect simulation
+      pdf.setFillColor(103, 58, 183);
+      pdf.rect(0, 0, pageWidth, 40, 'F');
+      
+      // Title
       pdf.setFontSize(24);
-      pdf.setTextColor(103, 58, 183); // Purple
-      pdf.text('Relatório Profissional de Campanhas', pageWidth / 2, 30, { align: 'center' });
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('RELATÓRIO EXECUTIVO', pageWidth / 2, 20, { align: 'center' });
+      pdf.setFontSize(14);
+      pdf.text('Análise Avançada de Performance', pageWidth / 2, 30, { align: 'center' });
       
-      pdf.setFontSize(12);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text(`Período: ${timeRange} | Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, pageWidth / 2, 40, { align: 'center' });
-      
-      // Metrics Summary
-      pdf.setFontSize(16);
+      // Reset colors
       pdf.setTextColor(0, 0, 0);
-      pdf.text('Resumo Executivo', 20, 60);
       
-      const metricsText = [
-        `• Investimento Total: R$ ${metrics.totalCost.toFixed(2)}`,
-        `• Cliques Totais: ${metrics.totalClicks.toLocaleString()}`,
-        `• Impressões Totais: ${metrics.totalImpressions.toLocaleString()}`,
-        `• Conversões: ${metrics.totalConversions}`,
-        `• CPC Médio: R$ ${metrics.avgCPC.toFixed(2)}`,
-        `• CTR Médio: ${metrics.avgCTR.toFixed(2)}%`,
-        `• Taxa de Conversão: ${metrics.conversionRate.toFixed(2)}%`,
-        `• ROAS: ${metrics.roas.toFixed(2)}x`
+      // Executive Summary Box
+      pdf.setFillColor(248, 249, 250);
+      pdf.roundedRect(15, 50, pageWidth - 30, 60, 5, 5, 'F');
+      pdf.setFontSize(16);
+      pdf.text('📊 RESUMO EXECUTIVO', 20, 65);
+      
+      // Key metrics in formatted boxes
+      pdf.setFontSize(11);
+      const summaryMetrics = [
+        `Investimento Total: R$ ${metrics.totalCost.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
+        `ROAS: ${metrics.roas.toFixed(2)}x | CTR: ${metrics.avgCTR.toFixed(2)}%`,
+        `Conversões: ${metrics.totalConversions} | Taxa: ${metrics.conversionRate.toFixed(2)}%`,
+        `CPC Médio: R$ ${metrics.avgCPC.toFixed(2)} | Período: ${timeRange}`
       ];
       
-      metricsText.forEach((text, index) => {
-        pdf.text(text, 20, 80 + (index * 10));
+      summaryMetrics.forEach((text, index) => {
+        pdf.text(`• ${text}`, 25, 75 + (index * 8));
       });
       
-      // Platform Performance
-      pdf.text('Performance por Plataforma', 20, 180);
+      // Performance by Platform Section
+      pdf.setFillColor(240, 248, 255);
+      pdf.roundedRect(15, 125, pageWidth - 30, 80, 5, 5, 'F');
+      pdf.setFontSize(14);
+      pdf.text('📈 PERFORMANCE POR PLATAFORMA', 20, 140);
+      
       platformData.forEach((platform, index) => {
-        const platformText = `${platform.name}: R$ ${platform.cost.toFixed(2)} | ${platform.clicks} cliques | ${platform.conversions} conversões`;
-        pdf.text(platformText, 20, 200 + (index * 10));
-      });
-      
-      // AI Insights
-      pdf.addPage();
-      pdf.text('Insights da IA', 20, 30);
-      aiInsights.forEach((insight, index) => {
-        const yPos = 50 + (index * 30);
+        const yPos = 150 + (index * 15);
         pdf.setFontSize(12);
-        pdf.setTextColor(103, 58, 183);
-        pdf.text(`${insight.title} (${insight.priority})`, 20, yPos);
+        pdf.setFont(undefined, 'bold');
+        pdf.text(`${platform.name}`, 25, yPos);
+        pdf.setFont(undefined, 'normal');
         pdf.setFontSize(10);
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(insight.description, 20, yPos + 10);
-        pdf.text(`Ação: ${insight.action}`, 20, yPos + 20);
+        pdf.text(`Investimento: R$ ${platform.cost.toFixed(2)}`, 25, yPos + 5);
+        pdf.text(`Cliques: ${platform.clicks} | Conversões: ${platform.conversions}`, 25, yPos + 10);
+        
+        // Performance bar
+        const barWidth = (platform.cost / Math.max(...platformData.map(p => p.cost))) * 80;
+        pdf.setFillColor(103, 58, 183);
+        pdf.rect(100, yPos - 3, barWidth, 3, 'F');
       });
       
-      pdf.save(`relatorio-campanhas-${timeRange}-${Date.now()}.pdf`);
+      // Detailed Metrics Table
+      pdf.addPage();
+      pdf.setFillColor(103, 58, 183);
+      pdf.rect(0, 0, pageWidth, 25, 'F');
+      pdf.setFontSize(18);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('MÉTRICAS DETALHADAS', pageWidth / 2, 15, { align: 'center' });
+      
+      pdf.setTextColor(0, 0, 0);
+      
+      // Create modern table
+      const tableData = [
+        ['Métrica', 'Valor', 'Performance'],
+        ['Investimento Total', `R$ ${metrics.totalCost.toLocaleString('pt-BR')}`, '💰'],
+        ['Cliques Totais', metrics.totalClicks.toLocaleString('pt-BR'), '👆'],
+        ['Impressões', metrics.totalImpressions.toLocaleString('pt-BR'), '👁️'],
+        ['Conversões', metrics.totalConversions.toString(), '✅'],
+        ['CPC Médio', `R$ ${metrics.avgCPC.toFixed(2)}`, '💳'],
+        ['CTR Médio', `${metrics.avgCTR.toFixed(2)}%`, '📊'],
+        ['Taxa Conversão', `${metrics.conversionRate.toFixed(2)}%`, '🎯'],
+        ['ROAS', `${metrics.roas.toFixed(2)}x`, '📈']
+      ];
+      
+      let yPosition = 45;
+      tableData.forEach((row, index) => {
+        if (index === 0) {
+          pdf.setFillColor(230, 230, 230);
+          pdf.rect(15, yPosition - 5, pageWidth - 30, 10, 'F');
+          pdf.setFont(undefined, 'bold');
+        } else {
+          pdf.setFont(undefined, 'normal');
+          if (index % 2 === 0) {
+            pdf.setFillColor(248, 248, 248);
+            pdf.rect(15, yPosition - 5, pageWidth - 30, 10, 'F');
+          }
+        }
+        
+        pdf.text(row[0], 20, yPosition);
+        pdf.text(row[1], 80, yPosition);
+        pdf.text(row[2], 150, yPosition);
+        yPosition += 12;
+      });
+      
+      // AI Insights Section
+      pdf.addPage();
+      pdf.setFillColor(255, 248, 220);
+      pdf.rect(0, 0, pageWidth, 30, 'F');
+      pdf.setFontSize(20);
+      pdf.setTextColor(139, 69, 19);
+      pdf.text('🤖 INSIGHTS DA IA', pageWidth / 2, 20, { align: 'center' });
+      
+      pdf.setTextColor(0, 0, 0);
+      
+      aiInsights.forEach((insight, index) => {
+        const yPos = 50 + (index * 45);
+        
+        // Insight box
+        pdf.setFillColor(252, 252, 252);
+        pdf.roundedRect(15, yPos - 5, pageWidth - 30, 40, 3, 3, 'F');
+        
+        // Priority indicator
+        const priorityColor = insight.priority === 'critical' ? [255, 82, 82] : 
+                             insight.priority === 'high' ? [255, 193, 7] : 
+                             insight.priority === 'medium' ? [255, 152, 0] : [76, 175, 80];
+        pdf.setFillColor(priorityColor[0], priorityColor[1], priorityColor[2]);
+        pdf.circle(25, yPos + 5, 3, 'F');
+        
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.text(`${insight.title} (${insight.priority})`, 35, yPos + 2);
+        
+        pdf.setFont(undefined, 'normal');
+        pdf.setFontSize(10);
+        const description = pdf.splitTextToSize(insight.description, 160);
+        pdf.text(description, 20, yPos + 12);
+        
+        pdf.setFont(undefined, 'italic');
+        pdf.text(`💡 Ação recomendada: ${insight.action}`, 20, yPos + 25);
+      });
+      
+      // Footer
+      pdf.setFontSize(8);
+      pdf.setTextColor(128, 128, 128);
+      pdf.text(`Gerado em ${new Date().toLocaleString('pt-BR')} | Plataforma de Marketing Inteligente`, pageWidth / 2, 285, { align: 'center' });
+      
+      pdf.save(`relatorio-avancado-${timeRange}-${Date.now()}.pdf`);
       
       toast({
-        title: "PDF Gerado!",
-        description: "Relatório profissional baixado com sucesso",
+        title: "📄 PDF Avançado Gerado!",
+        description: "Relatório profissional com gráficos modernos baixado com sucesso",
       });
     } catch (error) {
       console.error('Error generating PDF:', error);
