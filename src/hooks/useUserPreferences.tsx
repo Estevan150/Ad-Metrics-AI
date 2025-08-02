@@ -13,6 +13,7 @@ interface UserPreferencesContextType {
   preferences: UserPreferences;
   updatePreferences: (updates: Partial<UserPreferences>) => void;
   resetOnboarding: () => void;
+  completeOnboarding: () => void;
   isOnboardingComplete: boolean;
 }
 
@@ -59,11 +60,17 @@ export function UserPreferencesProvider({ children }: { children: ReactNode }) {
     setIsOnboardingComplete(false);
   };
 
+  const completeOnboarding = () => {
+    localStorage.setItem('onboarding-complete', 'true');
+    setIsOnboardingComplete(true);
+  };
+
   return (
     <UserPreferencesContext.Provider value={{
       preferences,
       updatePreferences,
       resetOnboarding,
+      completeOnboarding,
       isOnboardingComplete
     }}>
       {children}
